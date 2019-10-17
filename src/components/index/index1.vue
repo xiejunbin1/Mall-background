@@ -1,8 +1,8 @@
 <script>
 import axios from 'axios';
 import ccc from './index3'//引用文件
-const ADMINURL='';//线上
-// const ADMINURL ='http://10.10.0.204:8083';//线
+// const ADMINURL='';//线上
+const ADMINURL ='http://10.10.0.204:8083';//线
 var name = axios({
 	method:'get',
 	url:ADMINURL+'/api/SystemApi/ModulesConfig',
@@ -12,7 +12,6 @@ var name = axios({
     // machine, // 设备
     // product, //商品,礼品
     // mine,//我的
-    
     for(let i in err.data){
         if(err.data[i].F_Code == "machine_upScore"){
             //远程上分
@@ -122,7 +121,6 @@ var name = axios({
             //今日总收益
            ccc.finance_today = err.data[i].F_Status
         }               
-           
     }
 	ccc.userSite = err.data
 })

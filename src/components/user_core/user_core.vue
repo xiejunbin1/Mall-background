@@ -91,7 +91,7 @@
 				</router-link>
 			</div>
 
-			<div class="core-li" v-if="this.GLOT.finance_income">
+			<!-- <div class="core-li" v-if="this.GLOT.finance_income">
 				<router-link tag="div" to="/theOrderManagement" class="core-li-div">
 					<span class="li-name">
 						<i class="icon iconfont icon-huobi changtable"></i>
@@ -102,7 +102,7 @@
 					</span>
 				</router-link>
 				
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>

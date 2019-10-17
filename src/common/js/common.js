@@ -1,8 +1,8 @@
 import axios from 'axios';
 import ccc from '../../components/index/index3'//引用文件
 export function zhujian(){
-    // let ADMINURL = 'http://10.10.0.204:8083'
-    let ADMINURL = ''
+    let ADMINURL = 'http://10.10.0.204:8083'
+    // let ADMINURL = ''
     axios({
         method:'get',
         url:ADMINURL+'/api/SystemApi/ModulesConfig',

@@ -39,11 +39,9 @@ export default {
             for(let i in res.data.data){
                this.address = res.data.data[i].address
             }
-            
         }).catch(err=>{
             submitTest(err,_this);
         })
-	
     }
 }
 </script>
@@ -82,7 +80,6 @@ export default {
             }
             .equipment_DIV{
                 color: #ff0088;
-                
             }
         }
     }

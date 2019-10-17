@@ -52,11 +52,19 @@
 						</div>
 					</router-link>
 					
-					<router-link :to="{path:'moneycount',name:'moneycount',params:{manageid:123}}" tag="div" class="carte1-li carte1-li2" v-if="this.GLOT.finance_turnover">
+					<!-- <router-link :to="{path:'moneycount',name:'moneycount',params:{manageid:123}}" tag="div" class="carte1-li carte1-li2" v-if="this.GLOT.finance_turnover">
 						<div class="classify-bg-div">
 							<div class="bg-div bg-div1">销售统计</div>
 							<div class="bg-div bg-div2">
 								销售数据统计
+							</div>
+						</div>
+					</router-link> -->
+					<router-link to="/theOrderManagement" tag="div" class="carte1-li carte1-li2" v-if="this.GLOT.finance_turnover">
+						<div class="classify-bg-div">
+							<div class="bg-div bg-div1">订单管理</div>
+							<div class="bg-div bg-div2">
+								订单数据统计
 							</div>
 						</div>
 					</router-link>

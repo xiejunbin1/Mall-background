@@ -3,14 +3,14 @@
 		<!-- <div class="lack_header">{{title_name}}</div> -->
 		<div class="list-title">
 			<div class="title-div">
-				<span style="color: #F56C6C;">查询到{{lack.length}}台缺货设备</span>
+				<span style="color: #F56C6C;">缺货设备{{lack.length}}台</span>
 			</div>
 			<div class="title-div">
 				<!-- <span style="color: #F56C6C;">4545454</span> -->
-				<span class="" style="color: #000;">库存百分比:</span>
+				<span class="" style="color: #000;">库存剩余(%):</span>
 				<van-stepper v-model="value" step="5" min="30" max="100"/>
-				<span class="" style="color: #F56C6C;" @click="theQuery">查询</span>
 			</div>
+			<span class="span" @click="theQuery">查询</span>
 		</div>
 		<div class="supply-list">
 			<div class="supply-list-div">
@@ -20,15 +20,15 @@
 					<p>暂时没有待补货的场地喔~</p>
 				</div>
 				<div class="supply-ul">
-					<router-link :to="{path:'stockinfo',name:'stockinfo',params:{manageid:item.manageid,address:item.address}}" tag="div" class="info-summary" v-for="(item,index) in lack" :key="index">
+					<router-link :to="{path:'stockinfo',name:'stockinfo',params:{machineNum:item.machineNum,address:item.address}}" tag="div" class="info-summary" v-for="(item,index) in lack" :key="index">
 					<!--<div class="info-summary" v-for="(item,index) in 3">-->
 						<div class="summary-img">
 							<img src="http://119.23.218.210/allPHP/imgs/manage3.jpg" alt="口红机" />
 							<!-- <img src="http://119.23.218.210/allPHP/imgs/manage2.jpg" alt="售货机" v-show="!item.manage_class"/> -->
 						</div>
 						<div class="summary-text">
-							<div class="info-div">设备编号：<i class="color-warning">{{item.manageid}}</i></div>
-							<div class="info-div">设备类型：<i class="color-warning">{{item.manage_class==0?'自助售货机':'游戏口红机'}}</i></div>
+							<div class="info-div">设备编号：<i class="color-warning">{{item.machineNum}}</i></div>
+							<div class="info-div">设备类型：<i class="color-warning">{{item.machineType}}</i></div>
 							<div class="info-div">详细地址：{{item.address}}</div>
 						</div>
 					</router-link>					
@@ -63,7 +63,12 @@ export default {
 		},
 		// 库存查询
 		theQuery(){
-			console.log("11111")
+			axios({
+				method:"get",
+				url:url.adminurl+"/api/MachineStocksApi/List?stockPercent="+this.value,
+			}).then((err)=>{
+				this.lack = err.data
+			})
 		}
 	},
 	
@@ -74,23 +79,23 @@ export default {
 	//开始创建
 	created(){
 		this.title_name=this.$route.params.address
-		this.lack=[{
-			manageid:'071j7dskladhlah81hsd',
-			manage_class:1,
-			address:'娱乐广场'
-		},{
-			manageid:'071j7dskladhlah81hsd',
-			manage_class:0,
-			address:'娱乐广场'
-		},{
-			manageid:'071j7dskladhlah81hsd',
-			manage_class:0,
-			address:'娱乐广场'
-		},{
-			manageid:'071j7dskladhlah81hsd',
-			manage_class:1,
-			address:'娱乐广场'
-		}]
+		// this.lack=[{
+		// 	manageid:'071j7dskladhlah81hsd',
+		// 	manage_class:1,
+		// 	address:'娱乐广场'
+		// },{
+		// 	manageid:'071j7dskladhlah81hsd',
+		// 	manage_class:0,
+		// 	address:'娱乐广场'
+		// },{
+		// 	manageid:'071j7dskladhlah81hsd',
+		// 	manage_class:0,
+		// 	address:'娱乐广场'
+		// },{
+		// 	manageid:'071j7dskladhlah81hsd',
+		// 	manage_class:1,
+		// 	address:'娱乐广场'
+		// }]
 	},
 	//计算属性
 	computed:{
@@ -98,7 +103,13 @@ export default {
 	},
 	//挂载完成
 	mounted(){
-		
+		axios({
+		  	method:"get",
+		  	url:url.adminurl+"/api/MachineStocksApi/List?stockPercent="+this.value,
+	  	}).then((err)=>{
+		  	console.log(err.data,"30")
+		  	this.lack = err.data
+	  	})
 	}
 }
 </script>
@@ -190,9 +201,9 @@ export default {
 		background: #FFFFCC;
 		border-bottom:1px solid @BOX3;
 		display: flex;
-		justify-content: space-between;
+		align-items: center;
+		justify-content: space-around;
 		.title-div{
-			width: 100%;
 			// margin: 0 auto;
 			font-size: 14px;
 			color: @FTC3;
@@ -205,6 +216,15 @@ export default {
 				border: none;
 			}
 			// border: 1px solid red;
+		}
+		.span{
+			width: 40px;
+			height: 20px;
+			background: red;
+			color: #fff;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 }
