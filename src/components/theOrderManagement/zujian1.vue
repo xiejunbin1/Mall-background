@@ -111,7 +111,6 @@ export default {
             this.$emit("onClickNumber",this.currentPage)
         },
         onClick(name, title){
-            console.log(title)
         },
         
         
@@ -122,8 +121,7 @@ export default {
     },
     //挂载完成
     mounted(){
-        console.log(this.List)
-        console.log(this.numberOfPages)
+       
        
     }
 }
@@ -305,6 +303,7 @@ export default {
         align-items: center;
         font-size:16px;
         border-bottom: 1px solid @BOX3; 
+        box-sizing: border-box;
         u{
             text-decoration:none;
             color: #0066ff;

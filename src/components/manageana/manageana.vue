@@ -438,14 +438,6 @@ export default {
   		this.show=false;
 		this.managetype_id=this.typeList[index].id
 		this.managetype_name=this.typeList[index].name
-//		const index = e.currentTarget.dataset.index;
-//		const typeid = e.currentTarget.dataset.typeid;
-//		for (var i=0;i<this.typeList.length;i++) {
-//			this.typeList[i].check=false
-//		}
-//		this.typeList[index].check=true;
-//		this.managetype_id=this.typeList[index].id
-//		this.managetype_name=this.typeList[index].name
   	},
   	manageclassify(){
   		this.show=!this.show;

@@ -96,7 +96,6 @@ export default {
     },
     methods:{
         onscroll(){  //滚动条事件
-            console.log(111)
         },
         handletime1(){
             this.show1=!this.show1;
@@ -160,7 +159,8 @@ export default {
     //挂载完成
     mounted(){
         // window.addEventListener('scroll',this.handleScroll);
-        console.log(this.stick)
+        // this.$emit("eventLuckyDraw",this.stick[0].text)
+        this.$emit("onClickNumber1",this.currentPage)
     }
 }
 
@@ -329,6 +329,7 @@ export default {
         align-items: center;
         font-size:16px;
         border-bottom: 1px solid @BOX3; 
+        box-sizing: border-box;
         u{
             text-decoration:none;
             color: #0066ff;

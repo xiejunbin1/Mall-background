@@ -104,7 +104,7 @@
     </div>
 </template>
 <script>
-import { Tab,Tabs,Pagination } from 'vant';
+import { Tab,Tabs,Pagination,Toast } from 'vant';
 import zhujian from "../../components/theOrderManagement/zhujian";
 import zuJian from "../../components/theOrderManagement/zujian1";
 import img from "../../common/img/game1.jpg";
@@ -137,7 +137,8 @@ export default {
             theWinningState:"",//中奖状态码
             Details:"",//功能选着 购买详情 游戏详情 充值详情 退款详情
             currentPage:1,//当前页码
-            totalAmount:0//退款总金额
+            totalAmount:0,//退款总金额
+            page:1//页码数
         }
     },
     methods:{  
@@ -166,10 +167,10 @@ export default {
             let _this=this;
             switch(this.Details){
                 case "": this.theOrder(1); break;
-                case "购买详情": this.theOrder(1); break;
-                case "游戏详情": this.theGame(1,this.theWinningState); break;
-                case "充值详情": this.topUp(1); break;
-                case "退款详情": this.aRefund(1); break;
+                case "购买详情": this.theOrder(this.page); break;
+                case "游戏详情": this.theGame(this.page,this.theWinningState); break;
+                case "充值详情": this.topUp(this.currentPage); break;
+                case "退款详情": this.aRefund(this.currentPage); break;
             }
         },
         //结束的时间选着
@@ -204,6 +205,7 @@ export default {
         },
         //点击下一页请求数据
         onClickNumber:function(data){
+            this.page = data
             switch(this.Details){
                 case "": this.theOrder(data); break;
                 case "购买详情": this.theOrder(data); break;
@@ -229,6 +231,12 @@ export default {
         },
         //在其他地方多处调用(购买详情)
         theOrder(data){
+            const toast = Toast.loading({
+                duration:0,       // 持续展示 toast
+                forbidClick: true, // 禁用背景点击
+                loadingType: 'spinner',
+                message: '正在加载..'
+            });
             let _this = this
             axios({
                 method:"get",
@@ -238,6 +246,19 @@ export default {
                 this.recordNumber= err.data.totalCount
                 this.numberOfPages = Math.ceil(this.recordNumber/30)
                 parseInt(this.numberOfPages)
+                let promise = new Promise((resolve,reject)=>{
+                    let status = err.status
+                    resolve(status)  
+                })
+                promise.then((data)=>{
+                    const timer = setInterval(() => {
+                        toast.message = `正在加载..`;
+                        if(data){
+                            clearInterval(timer);
+                            Toast.clear();
+                        }
+                    },1000);
+                })
             }).catch(err=>{
                 submitTest(err,_this);
             })
@@ -260,26 +281,52 @@ export default {
         },
          //在其他地方多处调用(游戏详情)
         theGame(data,name){
+            const toast = Toast.loading({
+                duration:0,       // 持续展示 toast
+                forbidClick: true, // 禁用背景点击
+                loadingType: 'spinner',
+                message: '正在加载..'
+            });
             let _this = this
             axios({
                 method:"get",
                 url:url.adminurl+"/api/OrderApi/OrdersGame?machineNum="+this.$route.params.machineNum+"&page="+data+"&beginTime="+this.str_time1+"&endTime="+this.end_time1+"&pageSize="+30+"&status="+name,
             }).then((err)=>{
-                // console.log(err)
                 this.theGameDetails = err.data.data
                 this.recordNumber= err.data.totalCount
                 this.numberOfPages = Math.ceil(this.recordNumber/30)
                 parseInt(this.numberOfPages)
+                let promise = new Promise((resolve,reject)=>{
+                    let status = err.status
+                    resolve(status)  
+                })
+                promise.then((data)=>{
+                    const timer = setInterval(() => {
+                        toast.message = `正在加载..`;
+                        if(data){
+                            clearInterval(timer);
+                            Toast.clear();
+                        }
+                    },1000);
+                })
+                
             }).catch(err=>{
                 submitTest(err,_this);
             })
         },
         onClickNumber1:function(data){
+            this.page = data
             this.theGame(data,this.theWinningState)
             document.documentElement.scrollTop = 0;
         },
         //充值
         topUp(data){
+            const toast = Toast.loading({
+                duration:0,       // 持续展示 toast
+                forbidClick: true, // 禁用背景点击
+                loadingType: 'spinner',
+                message: '正在加载..'
+            });
             let _this = this
             axios({
                 method:"get",
@@ -290,12 +337,31 @@ export default {
                 this.recordNumber= err.data.totalCount
                 this.numberOfPages = Math.ceil(this.recordNumber/30)
                 parseInt(this.numberOfPages)
+                let promise = new Promise((resolve,reject)=>{
+                    let status = err.status
+                    resolve(status)  
+                })
+                promise.then((data)=>{
+                    const timer = setInterval(() => {
+                        toast.message = `正在加载..`;
+                        if(data){
+                            clearInterval(timer);
+                            Toast.clear();
+                        }
+                    },1000);
+                })
             }).catch(err=>{
                 submitTest(err,_this);
             })
         },
         //退款
         aRefund(data){
+            const toast = Toast.loading({
+                duration:0,       // 持续展示 toast
+                forbidClick: true, // 禁用背景点击
+                loadingType: 'spinner',
+                message: '正在加载..'
+            });
             let _this = this
             axios({
                 method:"get",
@@ -307,6 +373,19 @@ export default {
                 this.numberOfPages = Math.ceil(this.recordNumber/30)
                 parseInt(this.numberOfPages)
                 this.totalAmount = err.data.totalAmount
+                let promise = new Promise((resolve,reject)=>{
+                    let status = err.status
+                    resolve(status)  
+                })
+                promise.then((data)=>{
+                    const timer = setInterval(() => {
+                        toast.message = `正在加载..`;
+                        if(data){
+                            clearInterval(timer);
+                            Toast.clear();
+                        }
+                    },1000);
+                })
             }).catch(err=>{
                 submitTest(err,_this);
             })
@@ -329,12 +408,15 @@ export default {
         promise.then((nowtime)=>{
             console.log(nowtime.getMonth()+1)
             let month = nowtime.getMonth()+1
-            this.str_time1 = nowtime.getFullYear() + "/" + month + "/" + nowtime.getDate() + " " + nowtime.getHours() + ':' + nowtime.getMinutes()
+            this.str_time1 = nowtime.getFullYear() + "/" + month + "/" + nowtime.getDate() + " " + 0 + ':' + 0
             this.end_time1 = nowtime.getFullYear() + "/" + month + "/" + nowtime.getDate() + " " + nowtime.getHours() + ':' + nowtime.getMinutes()
             this.theOrder(1)
         })
+        
         this.luckyDraw()
-        console.log(this.$route.params.machineNum)
+        setTimeout(()=>{
+            this.theWinningState = this.stick[0].value
+        },300)
     }
 }
 </script>
@@ -362,6 +444,7 @@ export default {
                 background: #fff;
                 display: flex;
                 align-items: center;
+                
                 .IMG{
                     width: 15%;
                     height: 60px;
@@ -468,5 +551,8 @@ export default {
         bottom: 0;
         width: 100%;
         background: #fff;
+    }
+    .van-ellipsis{
+        font-size: 18px;
     }
 </style>

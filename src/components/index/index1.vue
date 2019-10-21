@@ -120,7 +120,11 @@ var name = axios({
         if(err.data[i].F_Code == "finance_today"){
             //今日总收益
            ccc.finance_today = err.data[i].F_Status
-        }               
+        }   
+        if(err.data[i].F_Code == "finance_ordersMgr"){
+            //今日总收益
+           ccc.finance_ordersMgr = err.data[i].F_Status
+        }                 
     }
 	ccc.userSite = err.data
 })

@@ -34,7 +34,6 @@ export default {
             url:url.adminurl+'/api/MachineApi/List?page=1&status=-1&machineTypeId=0&addressId='+localStorage.getItem("id"),
             responseType:'json'
         }).then((res)=>{
-            // console.log(res)
             this.List=res.data.data;
             for(let i in res.data.data){
                this.address = res.data.data[i].address

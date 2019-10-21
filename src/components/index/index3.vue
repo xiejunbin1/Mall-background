@@ -30,6 +30,7 @@ let mine = false ;//我的
 let machine_log = false;//日志上传
 let product_mger =false;//商品管理
 let finance_today = false; //今日总收益
+let finance_ordersMgr = false;//订单管理
   export default
   {
     machine_upScore, //远程上分
@@ -62,5 +63,6 @@ let finance_today = false; //今日总收益
     mine,//我的
     machine_log,//日志上传
     finance_today,//今日总收益
+    finance_ordersMgr,//订单管理
   }
-</script>复制代码
+</script>

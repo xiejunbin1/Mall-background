@@ -11,31 +11,17 @@
 					<div class="user-img">
 						<img :src='userImg' alt="" />
 						<span class="user_name">{{user_name}}</span>
-						<!--<span class="user_name">发送卡拿到布鲁克</span>-->
 					</div>
 					<div class="sum-income">
 						<span class="income-text" v-if="this.GLOT.finance_today">今日总收益（元）</span>
 						
 						<span class="income-num" v-if="this.GLOT.finance_today">{{todayMoney|moneyFilter}}</span>
 					</div>
-					<!--<div class="btn-div">
-						<span class="btn-info">查看详情</span>
-					</div>-->
+				
 					<span class="user_num">NO:{{numb}}</span>
 				</div>
 			</div>
-			<!--<div class="income-class">
-				<div class="class-pay on-line">
-					<span>线上支付</span>
-					<br />
-					<span>0.00元</span>
-				</div>
-				<div class="class-pay cash">
-					<span>现金收益</span>
-					<br />
-					<span>0.00元</span>
-				</div>
-			</div>-->
+			
 		</div>
 		<div class="main-body">
 			<div class="carte-list1">
@@ -60,11 +46,11 @@
 							</div>
 						</div>
 					</router-link> -->
-					<router-link to="/theOrderManagement" tag="div" class="carte1-li carte1-li2" v-if="this.GLOT.finance_turnover">
+					<router-link to="/changeStatements" tag="div" class="carte1-li carte1-li2" v-if="this.GLOT.finance_income">
 						<div class="classify-bg-div">
-							<div class="bg-div bg-div1">订单管理</div>
+							<div class="bg-div bg-div1">财务报表</div>
 							<div class="bg-div bg-div2">
-								订单数据统计
+								财务报表统计
 							</div>
 						</div>
 					</router-link>
@@ -85,25 +71,19 @@
 						<i class="icon iconfont icon-zhuce1"></i>
 						<p class="classify-info">设备注册</p>
 					</router-link>
-					<!--<router-link to="/base" tag="div" class="carte2-li carte2-li2">-->
-					<!--<router-link to="/phonereg" tag="div" class="carte2-li carte2-li2">-->
+				
 					<div class="carte2-li carte2-li2" @click="handleToSign" v-if="this.GLOT.mine_address">	
 						<i class="icon iconfont icon-gongju3"></i>
 						<p class="classify-info">地址管理</p>
 					</div>
-					<!--</router-link>-->
-					<!--</router-link>-->
-					<!--<div class="carte2-li carte2-li3">
-						<i class="icon iconfont icon-shouchiPOStubiaoku_huabanfuben"></i>
-						<p class="classify-info">账务查询</p>
-					</div>-->
+					
 					<router-link to="/mealshop" tag="div" class="carte2-li carte2-li3" v-if="this.GLOT.machine_meal">
 						<i class="icon iconfont icon-tubiaozhizuomoban-"></i>
 						<p class="classify-info">充值管理</p>
 					</router-link>
-					<router-link to="/changeStatements" class="carte2-li carte2-li4" tag="div" v-if="this.GLOT.finance_income">
+					<router-link v-if="this.GLOT.finance_ordersMgr" to="/theOrderManagement" class="carte2-li carte2-li4" tag="div" >
 						<i class="icon iconfont icon-huobi changtable"></i>
-						<p class="classify-info">财务报表</p>
+						<p class="classify-info">订单管理</p>
 					</router-link>
 					<!--<router-link to="/sellerreg" class="carte2-li carte2-li5" tag="div">-->
 					<div class="carte2-li carte2-li5" @click="handleToweb" v-if="this.GLOT.mine_merchant">
@@ -113,40 +93,19 @@
 					<!--</router-link>-->
 				</div>
 			</div>
-			<!--<div class='carte-list carte-list3' @click="handleTomeal">
-				<van-cell-group>
-				  <van-cell icon="shop" label="优惠设置" is-link>
-				    <template slot="title">
-				      <span class="van-cell-text">优惠设置</span>
-				    </template>
-				  </van-cell>
-				</van-cell-group>
-			</div>-->
-			
 			<div class="supply-title">
 				<div class="supply-title-div">
 					<i class="icon iconfont icon-redu2"></i>
-					<span class="supply-text">缺货店铺</span>
+					<span class="supply-text">缺货详情</span>
 				</div>
 			</div>
-			<div class="supply-list">
+			<div class="supply-list" v-if="this.GLOT.machine_stockout">
 				<div class="supply-list-div">
 					<div class="supply-no" v-show="lack.length==0">
 						<img src="../../common/img/5a93c51cN3bb5e37b.png" alt="" />
 						<br />
 						<p>暂时没有待补货的店铺喔~</p>
 					</div>
-					<!-- <div class="supply-ul">
-						<router-link :to="{path:'stockinfo',name:'lackgood',params:{aid:item.addressId,address:item.address}}" tag="div" class="info-summary" v-for="(item,index) in lack" :key="index">
-							<div class="summary-img">
-								<img src="../../common/hsuwt.jpg" alt="" />
-							</div>
-							<div class="summary-text">
-								<div class="info-div">店铺：<i class="color-warning">{{item.address}}</i></div>
-								<div class="info-div">缺货设备数：{{item.sum}}台<i class="color-warning"><i class="icon iconfont icon-quehuo1"></i></i></div>
-							</div>
-						</router-link>					
-					</div> -->
 					<lackgood></lackgood>
 				</div>
 			</div>
@@ -182,186 +141,132 @@ import {submitTest} from '@/common/js/loginTest.js'
 import {zhujian} from '@/common/js/common.js'
 import ccc from '../index/index3.vue'
 import lackgood from '../lack_good/lack_good.vue'
+import wx from 'weixin-js-sdk'
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      iscustom:false,
-      numb:'',
-      userImg: '',
-      manageinfo:[],
-      manage_class:'',
-      lack:[],
-      todayMoney:'',
-      allline:0,
-      online:0,
-	  user_name:'',
-	  ttt:'',
-	  finance_today:false,//今日总收益
-	  machine_mger:false,//设备管理
-	  finance_turnover:false,//销售统计
-	  product_mger:false,//商品管理
-	  machine_bing:false,//设备注册
-	  mine_address:false,//地址管理
-	  machine_meal:false,//充值管理
-	  finance_income:false,//财务报表
-	  mine_merchant:false,//商户资料
-    }
-  },
-  methods:{
-  	//点击客服
-  	handleCustom(){
-  		console.log(123)
-  		this.iscustom=!this.iscustom
-  	},
-  	handleToBank(){
-  		this.$router.push({name: 'issign'});
-  	},
-  	handleTomeal(){
-  		this.$router.push({name: 'licrelist'});
-  	},
-  	//商户资料页面跳转
-  	handleToweb(){
+	name: 'HelloWorld',
+	data () {
+		return {
+		iscustom:false,
+		numb:'',
+		userImg: '',
+		manageinfo:[],
+		manage_class:'',
+		lack:[],
+		todayMoney:'',
+		allline:0,
+		online:0,
+		user_name:'',
+		ttt:'',
+		}
+	},
+	methods:{
+		//点击客服
+		handleCustom(){
+			console.log(123)
+			this.iscustom=!this.iscustom
+		},
+		handleToBank(){
+			this.$router.push({name: 'issign'});
+		},
+		handleTomeal(){
+			this.$router.push({name: 'licrelist'});
+		},
+		//商户资料页面跳转
+		handleToweb(){
+			let _this=this;
+			axios({
+				method:'get',
+				url:url.adminurl+'/api/MerchantApi/SignDetail',
+				responseType:'json'
+			}).then((res)=>{
+				if (res.data.status == 'Success') {
+					this.$router.push({name: 'issign'});
+				} else if (res.data.status == 'Fail') {
+					if(res.data.msg){
+						this.$router.push({name: 'issign'});
+					}else if(res.data.msg==""){
+						this.$router.push({path:'/stuffIndex'})
+					}
+				}
+				
+			}).catch(err=>{
+				submitTest(err,_this);
+				this.status_err=true;
+				
+			})
+			
+		},
+		handleToSign(){
+			this.$router.push({name: 'addresslist'});
+		}
+	},
+	//实例化
+	components:{
+		lackgood
+	},
+	//开始创建
+	created(){
+		zhujian()
+		store.state.user.username = this.iscustom//在首页给他赋值
 		let _this=this;
 		axios({
 			method:'get',
-			url:url.adminurl+'/api/MerchantApi/SignDetail',
+			url:url.adminurl+'/api/AccountApi/PersonalInfo',
 			responseType:'json'
 		}).then((res)=>{
-			if (res.data.status == 'Success') {
-				this.$router.push({name: 'issign'});
-			} else if (res.data.status == 'Fail') {
-				if(res.data.msg){
-					this.$router.push({name: 'issign'});
-				}else if(res.data.msg==""){
-					this.$router.push({path:'/stuffIndex'})
-				}
-			}
-		}).catch(err=>{
-			submitTest(err,_this);
-			this.status_err=true;
+			this.numb=res.data.numb
+			this.userImg=res.data.headimgurl
+			this.user_name=res.data.nickname
 			
+	//		alert(res.data.headimgurl);
+		}).catch((err)=>{
+			submitTest(err,_this);
+		})       
+		axios({
+			method:'get',
+			url:url.adminurl+'/api/OrderApi/IncomeToday',
+			responseType:'json'
+		}).then((res)=>{
+			this.todayMoney=res.data
+		}).catch((err)=>{
+			submitTest(err,_this);
 		})
-  		
-  	},
-  	handleToSign(){
-  		this.$router.push({name: 'addresslist'});
-  	}
-  },
-  //实例化
-  components:{
-  	lackgood
-  },
-  //开始创建
-  created(){
-	  const promise = new Promise ((resolve,reject)=>{
-		  zhujian()
-		  resolve("成")
-	  })
-	  promise.then((err)=>{
-		    this.finance_today = ccc.finance_today//今日总收益
-			this.machine_mger = ccc.finance_today//设备管理
-			this.finance_turnover = ccc.finance_today//销售统计
-			this.product_mger = ccc.finance_today//商品管理
-			this.machine_bing = ccc.finance_today//设备注册
-			this.mine_address = ccc.finance_today//地址管理
-			this.machine_meal = ccc.finance_today//充值管理
-			this.finance_income = ccc.finance_today//财务报表
-			this.mine_merchant = ccc.finance_today//商户资料
-	  })
-	  console.log(ccc.finance)
-	  
-	  store.state.user.username = this.iscustom//在首页给他赋值
-	  
-  	let _this=this;
-  	axios({
-		method:'get',
-		url:url.adminurl+'/api/AccountApi/PersonalInfo',
-		responseType:'json'
-	}).then((res)=>{
-		this.numb=res.data.numb
-		this.userImg=res.data.headimgurl
-		this.user_name=res.data.nickname
+		axios({
+			method:'get',
+			url:url.adminurl+'/api/MachineApi/OnlineShow',
+			responseType:'json'
+		}).then((res)=>{
+			this.allline=res.data[0].total
+			this.online=res.data[1].total
+		}).catch((err)=>{
+			submitTest(err,_this);
+		})
+		this.lack=[{
+			address:'开心游乐场',
+			sum:1,
+			addressId:1,
+		},{
+			address:'娱乐广场',
+			sum:1,
+			addressId:2,
+		},{
+			address:'贸易海港',
+			sum:4,
+			addressId:3,
+		},{
+			address:'商贸中心',
+			sum:5,
+			addressId:4,
+		}]
+	},
+	//计算属性
+	computed:{
 		
-//		alert(res.data.headimgurl);
-	}).catch((err)=>{
-		submitTest(err,_this);
-	})       
-	axios({
-		method:'get',
-		url:url.adminurl+'/api/OrderApi/IncomeToday',
-		responseType:'json'
-	}).then((res)=>{
-		this.todayMoney=res.data
-	}).catch((err)=>{
-		submitTest(err,_this);
-	})
-	axios({
-		method:'get',
-		url:url.adminurl+'/api/MachineApi/OnlineShow',
-		responseType:'json'
-	}).then((res)=>{
-		this.allline=res.data[0].total
-		this.online=res.data[1].total
-	}).catch((err)=>{
-		submitTest(err,_this);
-	})
-	this.lack=[{
-		address:'开心游乐场',
-		sum:1,
-		addressId:1,
-	},{
-		address:'娱乐广场',
-		sum:1,
-		addressId:2,
-	},{
-		address:'贸易海港',
-		sum:4,
-		addressId:3,
-	},{
-		address:'商贸中心',
-		sum:5,
-		addressId:4,
-	}]
-  },
-  //计算属性
-  computed:{
-  	
-  },
-  //挂载完成
-  mounted(){
-	 
-	// let _this = this
-	// const promise = new Promise(function(resolve,reject){
-	// 	axios({
-	// 		method:'get',
-	// 		url:url.adminurl+'/api/AccountApi/PersonalInfo',
-	// 		responseType:'json'
-	// 	}).then((res)=>{
-	// 		// console.log(res.data.nickname)
-	// 		resolve(res.data.nickname)
-	// 	}).catch((err)=>{
-	// 		submitTest(err,_this);
-	// 	})       
-	// })
-	// function aaa(){
-	// 	const promise1 = new Promise(function(resolve,reject){
-	// 		promise.then(function(data){
-	// 			let aaa = data = "xxx"
-	// 			resolve(aaa)
-	// 		})     
-	// 	})
-	// 	return promise1
-	// }
-	// aaa().then(res=>{
-	// 	console.log(res,"444")
-	// })
-	
-	// promise.then(function(data){
-	// 	console.log(data,"data")
-	// }) 
-	
-}
+	},
+	//挂载完成
+	mounted(){
+		
+	}
   
 }
 </script>

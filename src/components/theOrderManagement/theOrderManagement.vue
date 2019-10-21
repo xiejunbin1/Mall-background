@@ -61,7 +61,6 @@ export default {
 			method: 'get',
 		    url:url.adminurl+'/api/MachineAddressApi/List',
 		}).then((res)=>{
-            console.log(res)
 			_this.addressData=res.data
 		}).catch(err=>{
 			submitTest(err,_this);
