@@ -10,7 +10,7 @@
         <div class="mainInput">
               <div class="row" v-for="(item,index) in clitk" :key="index">
                  <div class="lable">{{item.fieldtext}}:</div>
-                 <div class="input"><input type="number" v-model="item.fieldvalue" placeholder="游戏数值在0~50之间"></div>
+                 <div class="input"><input type="number" v-model="item.fieldvalue"></div>
              </div>
              <div class="aRefund" v-show="xians">
                 <div class="aRefund_left">自动退款:</div>
@@ -212,7 +212,7 @@ export default {
         this.getAnnouncementList();
     },
     mounted () {
-       
+       console.log("111")
     },
     components: {
         Footer

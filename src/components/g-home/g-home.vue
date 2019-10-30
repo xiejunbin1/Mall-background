@@ -214,23 +214,24 @@ export default {
 			url:url.adminurl+'/api/AccountApi/PersonalInfo',
 			responseType:'json'
 		}).then((res)=>{
+			console.log(res)
 			this.numb=res.data.numb
 			this.userImg=res.data.headimgurl
 			this.user_name=res.data.nickname
-			
+			this.todayMoney=res.data.today_income
 	//		alert(res.data.headimgurl);
 		}).catch((err)=>{
 			submitTest(err,_this);
 		})       
-		axios({
-			method:'get',
-			url:url.adminurl+'/api/OrderApi/IncomeToday',
-			responseType:'json'
-		}).then((res)=>{
-			this.todayMoney=res.data
-		}).catch((err)=>{
-			submitTest(err,_this);
-		})
+		// axios({
+		// 	method:'get',
+		// 	url:url.adminurl+'/api/OrderApi/IncomeToday',
+		// 	responseType:'json'
+		// }).then((res)=>{
+		// 	this.todayMoney=res.data
+		// }).catch((err)=>{
+		// 	submitTest(err,_this);
+		// })
 		axios({
 			method:'get',
 			url:url.adminurl+'/api/MachineApi/OnlineShow',

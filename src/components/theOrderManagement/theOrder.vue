@@ -166,7 +166,7 @@ export default {
             this.str_time1 = value.getFullYear() + "/" + month + "/" + value.getDate() + " " + value.getHours() + ':' + value.getMinutes()
             let _this=this;
             switch(this.Details){
-                case "": this.theOrder(1); break;
+                case "": this.theOrder(this.page); break;
                 case "购买详情": this.theOrder(this.page); break;
                 case "游戏详情": this.theGame(this.page,this.theWinningState); break;
                 case "充值详情": this.topUp(this.currentPage); break;
@@ -183,11 +183,11 @@ export default {
                 this.end_time1 = value.getFullYear() + "/" + month  + "/" + value.getDate() + " " + value.getHours() + ':' + value.getMinutes()
                 this.pno=1
                 switch(this.Details){
-                    case "": this.theOrder(1); break;
-                    case "购买详情": this.theOrder(1); break;
-                    case "游戏详情": this.theGame(1,this.theWinningState); break;
-                    case "充值详情": this.topUp(1); break;
-                    case "退款详情": this.aRefund(1); break;
+                    case "": this.theOrder(this.page); break;
+                    case "购买详情": this.theOrder(this.page); break;
+                    case "游戏详情": this.theGame(this.page,this.theWinningState); break;
+                    case "充值详情": this.topUp(this.currentPage); break;
+                    case "退款详情": this.aRefund(this.currentPage); break;
                 }
             }else{
                 alert('结束日期不低于开始日期');
@@ -277,7 +277,7 @@ export default {
         },
         eventLuckyDraw(data){
             this.theWinningState = this.stick[data].value
-            this.theGame(1,this.theWinningState)
+            this.theGame(this.page,this.theWinningState)
         },
          //在其他地方多处调用(游戏详情)
         theGame(data,name){
