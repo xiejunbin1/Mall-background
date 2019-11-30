@@ -9,8 +9,18 @@
                     <span @click="handletime2">{{end_time}}</span>
                 </div>
                 <div class="theTotalPrice">
-                    <b class="jiage">线上总收益(元):</b>
-                    <b class="qian">{{ zhongjia }}</b>
+                    <div class="jiage">
+                        <div>合计总金额(元)</div>
+                        <div class="qian">{{ total_amount }}</div>
+                    </div>
+                    <div class="jiage">
+                        <div>合计总成本(元)</div>
+                        <div class="qian">{{ total_cost }}</div>
+                    </div>
+                    <div class="jiage">
+                        <div>合计总利润(元)</div>
+                        <div class="qian">{{ total_profit }}</div>
+                    </div>
                 </div>
                 <div v-if="index==0">
                     <van-collapse v-model="activeNames" class="content">
@@ -114,7 +124,6 @@
         <Footer></Footer>
     </div>
 </template>
-
 <script>
 import axios from 'axios';	
 import qs from 'qs';
@@ -142,7 +151,9 @@ export default {
            end_time_t:new Date().getTime(),
            activeNames: [1],
            addressList:[],
-           zhongjia:0,//总收益
+           total_amount:0,//总收益
+           total_cost:0,//成本
+           total_profit:0//利润
         }
     },
     components: {
@@ -217,7 +228,9 @@ export default {
                     responseType:'json'
                 }).then((res)=>{
                     this.addressList=res.data.list
-                    this.zhongjia = res.data.total_amount
+                    this.total_amount = res.data.total_amount
+                    this.total_cost = res.data.total_cost
+                    this.total_profit = res.data.total_profit
                     localStorage.setItem("str_time",str_time)
                     localStorage.setItem("end_time",end_time)
                 }).catch(err=>{
@@ -225,12 +238,14 @@ export default {
                 })
             }else{
                 axios({
-                method:'get',
+                    method:'get',
                     url:url.adminurl+'/api/Income/IncomeAddress?&beginTime='+str_time+'&endTime='+end_time,
                     responseType:'json'
                 }).then((res)=>{
                     this.addressList=res.data.list
-                    this.zhongjia = res.data.total_amount
+                    this.total_amount = res.data.total_amount
+                    this.total_cost = res.data.total_cost
+                    this.total_profit = res.data.total_profit
                     localStorage.setItem("str_time",str_time)
                     localStorage.setItem("end_time",end_time)
                 }).catch(err=>{
@@ -294,14 +309,18 @@ export default {
 .theTotalPrice{
     width: 100%;
     background: #FFFFCC;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border-bottom:1px solid #888; 
+    box-sizing: border-box;
     .jiage{
-        font-size: 18px;
+        font-size: 15px;
         color: #606266;
         text-align: center;
+        font-weight: 700;
     }
     .qian{
         text-align: center;

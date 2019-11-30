@@ -24,7 +24,7 @@
         <div class="detailed" v-show="details1" v-for="(value,index) in theGameDetails" :key="index" >
             <div class="detailed_div">
                 <div class="detailed_div_tou">
-                    <div class="time">{{ value.createtime }}</div>
+                    <div class="time">{{ value.payTime }}</div>
                     <div class="time1" v-if="winning">{{ value.statusText }}  {{ value.toReceive }}</div>
                 </div>
                 <div class="detailed_div_zhong">

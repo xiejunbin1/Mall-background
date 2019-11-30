@@ -110,7 +110,7 @@
 <script>
 import axios from 'axios';	
 import qs from 'qs';
-import {Toast} from 'vant'
+import {Toast,Dialog} from 'vant'
 import url from '@/urlRouter.js'
 import wx from 'weixin-js-sdk'
 import {submitTest} from '@/common/js/loginTest.js'
@@ -133,7 +133,8 @@ export default {
   methods:{
   	//扫描二维码事件
   	handleScan(){
-  		alert('点击了扫描二维码')
+		Dialog({ message: '点击了扫描二维码' });
+  		// alert('点击了扫描二维码')
   		let _this=this
   		wx.scanQRCode({
 			needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
@@ -147,13 +148,16 @@ export default {
 				}).then((res)=>{
 //					alert(res.data)
 					if(!res.data){
-	      				alert('该设备可以绑定')
+						//   alert('该设备可以绑定')
+						Dialog({ message: '该设备可以绑定' });
 	      				_this.test=result;
 					}else{
-						alert('该设备已经绑定，请先去个人设置中解绑')
+						// alert('该设备已经绑定，请先去个人设置中解绑')
+						Dialog({ message: '该设备已经绑定，请先去个人设置中解绑' });
 					}
 				}).catch(err=>{
-					alert('网络故障，请检查')
+					// alert('网络故障，请检查')
+					Dialog({ message: '网络故障，请检查' });
 				})
 			}
 		});
@@ -239,8 +243,8 @@ export default {
   },
   //开始创建
   created(){
+
   		let _this=this
-  		
 		axios({
 		  method: 'get',
 		  url:'/api/SystemApi/GetWxJsapiConfig?url='+location.href.split('#')[0],

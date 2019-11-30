@@ -1,15 +1,6 @@
 <template>
 	<div class="getcell-main">
-		<!--<van-nav-bar
-		  title="设备参数修改"
-		  left-text="返回"
-		  left-arrow
-		  @click-left="onClickLeft"
-		  class='goods-title'
-		/>-->
-		
 		<div class="param-list">
-			
 			<div class="game-li">
 				<div class="game-li-div">
 					<span>一局币数<span class="game-time">{{fromData.gameSum}}</span>个</span>
@@ -38,15 +29,6 @@
 				</div>
 			</div>
 			
-			<!--<div class="game-li" @click="handleDigBuib">
-				<div class="game-li-div">
-					<span>灯光颜色   <span class="game-time">{{fromData.buib}}</span></span>
-					<div class="li-icon">
-						<span class="value-check">设置</span>
-						<i class="icon iconfont icon-icon11"></i>
-					</div>
-				</div>
-			</div>-->
 			
 			<div class="game-li">
 				<div class="game-li-div">
@@ -54,62 +36,36 @@
 					<van-switch v-model="fromData.isInfeed" />
 				</div>
 			</div>
-			
-			<!--<div class="game-li" @click="handleDigSpeed">
-				<div class="game-li-div">
-					<span>圆盘速度   <span class="game-time">{{fromData.speed}}</span></span>
-					<div class="li-icon">
-						<span class="value-check">设置</span>
-						<i class="icon iconfont icon-icon11"></i>
-					</div>
-				</div>
-			</div>-->
-			
-			<!--<div class="game-li" @click="handleDigMusic">
-				<div class="game-li-div">
-					<span>游戏音乐   <span class="game-time">{{fromData.music}}</span></span>
-					<div class="li-icon">
-						<span class="value-check">设置</span>
-						<i class="icon iconfont icon-icon11"></i>
-					</div>
-				</div>
-			</div>-->
-			
 			<div class="game-li">
 				<div class="game-li-div">
 					<span>广告开关      <span class="game-time" v-if="!fromData.ismusic">当前关</span><span class="game-time" v-if="fromData.ismusic">当前开</span></span>
 					<van-switch v-model="fromData.ismusic" />
 				</div>
 			</div>
-			
 			<div class="game-li">
 				<div class="game-li-div">
 					<span>当前设置<span class="game-value">{{gameData.gameSum}}</span>局可以中奖</span>
 					<van-stepper v-model="gameData.gameSum" integer :min="0" :max="1000"/>
 				</div>
 			</div>
-			
 			<div class="game-li">
 				<div class="game-li-div">
 					<span>第一关游戏时间 <span class="game-time">{{gameData.gameTime1}}</span>秒</span>
 					<van-stepper v-model="gameData.gameTime1" integer :min="0" :max="1000" />
 				</div>
 			</div>
-			
 			<div class="game-li">
 				<div class="game-li-div">
 					<span>第二关游戏时间 <span class="game-time">{{gameData.gameTime2}}</span>秒 </span>
 					<van-stepper v-model="gameData.gameTime2" integer :min="0" :max="1000" />
 				</div>
 			</div>
-			
 			<div class="game-li">
 				<div class="game-li-div">
 					<span>第三关游戏时间 <span class="game-time">{{gameData.gameTime3}}</span>秒 </span>
 					<van-stepper v-model="gameData.gameTime3" integer :min="0" :max="1000" />
 				</div>
 			</div>
-			
 			<div class="game-li">
 				<div class="game-li-div">
 					<span>第一关游戏子弹 <span class="game-time">{{gameData.gameclip1}}</span>个</span>
@@ -131,124 +87,7 @@
 				</div>
 			</div>
 			
-			<!--<div class="game-li">
-				<div class="game-li-div">
-					<span>音量大小<span class="game-time">当前{{fromData.volume}}</span></span>
-					<van-stepper v-model="fromData.volume" integer :min="0" :max="100"/>
-				</div>
-			</div>-->
-			
-			<!--<div class="game-li">
-				<div class="game-li-div">
-					<span>中奖后是否关门      <span class="game-time" v-if="!fromData.isdoor">当前关</span><span class="game-time" v-if="fromData.isdoor">当前开</span></span>
-					<van-switch v-model="fromData.isdoor" />
-				</div>
-			</div>-->
-			
-			<!--<div class="game-li" @click="handleDigLanguage">
-				<div class="game-li-div">
-					<span>语言   <span class="game-time">{{fromData.language}}</span></span>
-					<div class="li-icon">
-						<span class="value-check">设置</span>
-						<i class="icon iconfont icon-icon11"></i>
-					</div>
-				</div>
-			</div>-->
-			
-			<!--<router-link :to="{path:'gameparam',name:'gameparam',params:{mid:manage_id}}" tag="div" class="game-li">
-				<div class="game-li-div">
-					<span>游戏通关时间及子弹   </span>
-					<div class="li-icon">
-						<span class="value-check">前往设置</span>
-						<i class="icon iconfont icon-icon11"></i>
-					</div>
-				</div>
-			</router-link>-->
-			
-			<!--<div class="game-li game-li-more">
-				<div v-show="moreStatus">
-					<div class="good-img-div">
-						<div class="good-img">
-							<div class="img-title">出奖局数</div>
-							<div class="good-imgs">
-								<div class="game_sum">
-									<div class="game_sum_top" v-if="!sumstatus1">
-										<van-stepper v-model="gameData.gameSum" integer :min="0" :max="40"/>
-										<van-button size="small" type="primary" v-if="!sumstatus1" @click='handleSumYes1' class='game_sum_yes'>确认</van-button>
-									</div>
-									<div class="game-text">
-										当前设置<span class="game-value">{{gameData.gameSum}}</span>局可以中奖
-										<van-button size="small" type="danger" v-if="sumstatus1" @click='handleSumNo1' class='game_sum_no'>修改</van-button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="good-img-div">
-						<div class="good-img">
-							<div class="img-title">游戏时间</div>
-							<div class="good-imgs">
-								<div class="game-li">
-									<div class="game-li-div">
-										<span>第一关游戏时间 <span class="game-time">{{gameData.gameTime1}}</span>秒</span>
-										<van-stepper v-model="gameData.gameTime1" integer :min="0" :max="40" v-if="!timestatus1"/>
-										<van-button size="small" type="danger" v-if="timestatus1" @click='handleTimeNo1'>修改</van-button>
-										<van-button size="small" type="primary" v-if="!timestatus1" @click='handleTimeYes1'>确认</van-button>
-									</div>
-								</div>
-								<div class="game-li">
-									<div class="game-li-div">
-										<span>第二关游戏时间 <span class="game-time">{{gameData.gameTime2}}</span>秒 </span>
-										<van-stepper v-model="gameData.gameTime2" integer :min="0" :max="40" v-if="!timestatus2"/>
-										<van-button size="small" type="danger" v-if="timestatus2" @click='handleTimeNo2'>修改</van-button>
-										<van-button size="small" type="primary" v-if="!timestatus2" @click='handleTimeYes2'>确认</van-button>
-									</div>
-								</div>
-								<div class="game-li">
-									<div class="game-li-div">
-										<span>第三关游戏时间 <span class="game-time">{{gameData.gameTime3}}</span>秒 </span>
-										<van-stepper v-model="gameData.gameTime3" integer :min="0" :max="40" v-if="!timestatus3"/>
-										<van-button size="small" type="danger" v-if="timestatus3" @click='handleTimeNo3'>修改</van-button>
-										<van-button size="small" type="primary" v-if="!timestatus3" @click='handleTimeYes3'>确认</van-button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="good-img-div">
-						<div class="good-img">
-							<div class="img-title">每关子弹</div>
-							<div class="good-imgs">
-								<div class="game-li">
-									<div class="game-li-div">
-										<span>第一关游戏子弹 <span class="game-time">{{gameData.gameclip1}}</span>个</span>
-										<van-stepper v-model="gameData.gameclip1" integer :min="0" :max="40" v-if="!clipstatus1"/>
-										<van-button size="small" type="danger" v-if="clipstatus1" @click='handleClipNo1'>修改</van-button>
-										<van-button size="small" type="primary" v-if="!clipstatus1" @click='handleClipYes1'>确认</van-button>
-									</div>
-								</div>
-								<div class="game-li">
-									<div class="game-li-div">
-										<span>第二关游戏子弹 <span class="game-time">{{gameData.gameclip2}}</span>个</span>
-										<van-stepper v-model="gameData.gameclip2" integer :min="0" :max="40" v-if="!clipstatus2"/>
-										<van-button size="small" type="danger" v-if="clipstatus2" @click='handleClipNo2'>修改</van-button>
-										<van-button size="small" type="primary" v-if="!clipstatus2" @click='handleClipYes2'>确认</van-button>
-									</div>
-								</div>
-								<div class="game-li">
-									<div class="game-li-div">
-										<span>第三关游戏子弹 <span class="game-time">{{gameData.gameclip3}}</span>个</span>
-										<van-stepper v-model="gameData.gameclip3" integer :min="0" :max="40" v-if="!clipstatus3"/>
-										<van-button size="small" type="danger" v-if="clipstatus3" @click='handleClipNo3'>修改</van-button>
-										<van-button size="small" type="primary" v-if="!clipstatus3" @click='handleClipYes3'>确认</van-button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="more-title" @click='hanldeMore'>{{more}}</div>
-			</div>-->
+		
 			
 		</div>
 		
@@ -272,7 +111,6 @@
 		<van-popup v-model="showlanguage" position="bottom" :overlay="true">
 		  	<van-picker :columns="columnlanguage" show-toolbar @confirm='onConfirmlanguage' @cancel="onCancellanguage"/>
 		</van-popup>
-		<Footer></Footer>
 	</div>
 </template>
 

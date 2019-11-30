@@ -21,7 +21,7 @@
         <div class="detailed"  v-for="(value,index) in List" :key="index" >
             <div class="detailed_div">
                 <div class="detailed_div_tou">
-                    <div class="time">{{ value.createTime }}  {{ value.Time }}</div>
+                    <div class="time">{{ value.payTime}}  {{ value.Time }}</div>
                 </div>
                 <div class="detailed_div_zhong">
                     <div class="thePicture" v-for="(ietm,index) in value.products" :key="index">

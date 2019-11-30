@@ -119,8 +119,7 @@
 				<div class="cargo_title">客服咨询</div>
 				<div class="cargo_content">长按识别二维码,添加微信好友,在线客服会实时为你解答.</div>
 				<div class="cargo_img">
-					<img src="../../common/img/kehucode.jpg" alt="" />
-					
+					<img src="../../common/img/erweima.png" alt="" />
 				</div>
 				<div class="cargo_phone">
 					联系电话: 020-86169815
@@ -206,6 +205,7 @@ export default {
 	},
 	//开始创建
 	created(){
+		console.log("111222")
 		zhujian()
 		store.state.user.username = this.iscustom//在首页给他赋值
 		let _this=this;
@@ -214,7 +214,6 @@ export default {
 			url:url.adminurl+'/api/AccountApi/PersonalInfo',
 			responseType:'json'
 		}).then((res)=>{
-			console.log(res)
 			this.numb=res.data.numb
 			this.userImg=res.data.headimgurl
 			this.user_name=res.data.nickname
@@ -292,7 +291,8 @@ export default {
 		.cargo_content{
 			color: @FTC2;	
 			font-size: 14px;
-			padding: 10px 0;		
+			padding: 10px 0;	
+				
 		}
 		.cargo_img{
 			width: 100%;
@@ -438,6 +438,7 @@ export default {
 			background: rgba(72,61,139,0.7);
 			display: flex;
 			justify-content: space-between;
+	
 			.class-pay{
 				width: 50%;
 				height: 100%;

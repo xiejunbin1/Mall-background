@@ -38,7 +38,6 @@
 		<Footer></Footer>
 	</div>
 </template>
-
 <script>
 import axios from 'axios';	
 import qs from 'qs';
@@ -71,7 +70,6 @@ export default {
 			})
 		}
 	},
-	
 	//实例化
 	components:{
 		Footer

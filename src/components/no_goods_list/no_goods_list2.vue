@@ -902,7 +902,6 @@ export default {
   },
   //挂载完成
   mounted(){
-  	
   },
   filters:{
 	moneyFilter(money){

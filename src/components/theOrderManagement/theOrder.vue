@@ -22,7 +22,7 @@
                         <div class="class">
                             <div class="top-up1">
                                 <div class="name">{{ value.id }}</div>
-                                <div class="shijian">{{ value.createTime }}</div>
+                                <div class="shijian">{{ value.payTime }}</div>
                             </div>
                             <div class="top-up2">
                                 充值:{{ value.amount }}
@@ -31,7 +31,7 @@
                     </div>
                     <div class="theSerialNumber">
                         <div >序号:{{ value.id }}</div>
-                        <div >订单号:{{ value.outOrderNo }}</div>
+                        <div >订单号:{{ value.orderNo }}</div>
                     </div>
                 </div>
                 <div class="aaa"></div>
@@ -58,7 +58,7 @@
                         <div class="class">
                             <div class="top-up1">
                                 <div class="name">{{ value.name }}</div>
-                                <div class="shijian">{{ value.createTime }}</div>
+                                <div class="shijian">{{ value.payTime }}</div>
                             </div>
                             <div class="top-up2">
                                 退款:{{ value.amount }}
@@ -67,7 +67,7 @@
                     </div>
                     <div class="theSerialNumber">
                         <div >序号:{{ value.id }}</div>
-                        <div >订单号:{{ value.outOrderNo }}</div>
+                        <div >订单号:{{ value.orderNo }}</div>
                     </div>
                 </div>
                 <div class="aaa"></div>

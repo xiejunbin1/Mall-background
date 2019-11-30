@@ -17,7 +17,6 @@
 				</span>
 			</div>
 		</div>
-       
 		<div class="goods-list">
 			<div class="googs-li">
 				<div class="li-goods">
@@ -158,7 +157,6 @@
 							</van-list>
 						</van-pull-refresh>
 					</div>
-					
 				</van-tab>
 				
 			</van-tabs>

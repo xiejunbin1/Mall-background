@@ -53,10 +53,10 @@
 					<div class="domain-sum"><i class="icon iconfont icon-xiugai"></i></div>
 					<div class="domain-text">设备修改</div>
 				</router-link>
-				<router-link :to="{path:'manageparam',name:'manageparam',params:{mid:manageinfo.machineNum}}" tag="div" class="domain-li" v-show='manage_type==1' v-if="machine_argsKH">
+				<div tag="div" @click="twistedEggMachine()" class="domain-li" v-show='manage_type==1' v-if="machine_argsKH">
 					<div class="domain-sum"><i class="icon iconfont icon-shezhi"></i></div>
 					<div class="domain-text">设备参数</div>
-				</router-link>
+				</div>
 				<div class="domain-li" @click="handleLog" v-show="isType1" v-if="machine_log">
 					<div class="domain-sum"><i class="icon iconfont icon-jibenxinxi"></i></div>
 					<div class="domain-text">日志上传</div>
@@ -79,8 +79,7 @@
 					<div class="domain-text">缺货</div>
 				</router-link>
 			</div>
-		</div>
-		
+		</div>		
 		<van-dialog
 		  v-model="isScore"
 		  show-cancel-button
@@ -150,7 +149,7 @@ export default {
       show:false,
       manage_id:'',
       machineNum:'',
-	  manage_type:-1,
+	  manage_type:false,
 	  machine_argsKH:'',
 	  isType:true,
 	  machine_boxOnOff:'',
@@ -192,6 +191,21 @@ export default {
   	onClickLeft(){
   		this.$router.go(-1);
   	},
+	//设备参数修改
+	twistedEggMachine(){
+		if (this.$route.params.type==1) {
+			console.log("1111")
+			this.$router.push({
+          		path: `/manageparam/${this.machineNum}`,
+        	})
+		}
+		if (this.$route.params.type==5) {
+			console.log("555")
+			this.$router.push({
+          		path: `/twistedEggMachine/${this.machineNum}`,
+        	})
+		}
+	},
   	//确认上传日志
   	beforeClose1(action, done){
   	  let _this=this	
@@ -360,6 +374,9 @@ export default {
 	})
   	
 	promise.then((err)=>{
+		// if (err==1||err==5) {
+		// 	_this.manage_type=true
+		// }
 		if(err==3||err==5||err==6){
 			this.isType=true
 			this.isType1=false
@@ -391,7 +408,6 @@ export default {
   }
 }
 </script>
-
 <style scoped lang="less">
 @import '../../style/main.less';
 .span{
@@ -435,6 +451,7 @@ export default {
 		padding: 8px 0;
 		box-sizing: border-box;
 		margin-top: 15px;
+		
 		color: @FTC2;
 		box-shadow: @BOXcurrency;
 		.domain-title{
@@ -447,6 +464,7 @@ export default {
 				font-size: 16px;
 				color: @BGsuccess;
 				text-align: center;
+				
 			}
 		}
 		.domain-ul{

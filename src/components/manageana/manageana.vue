@@ -1,12 +1,6 @@
 <template>
 	<div class="manageana-main">
-		<!--<van-nav-bar
-		  title="设备注册"
-		  left-text="返回"
-		  left-arrow
-		  @click-left="onClickLeft"
-		  class='goods-title'
-		/>-->
+		
 		<div class="announcement">
 			欢迎使用  后台管理系统
 		</div>
@@ -25,20 +19,6 @@
 				</div>
 			</div>	
 		</div>
-		
-		<!--<div class="manage-li manage-encode ">
-			<div class="title-div">
-				<div class="manageana-li-title">出厂编号</div>
-				<div class="manageana-li-value" style="width: 70%;">
-					<input type="text" placeholder="请输入设备编号" v-model="test" class="manaeg-input"/>
-					<span  class="qr-icon" @click="handleScan">
-						<i class="icon iconfont icon-saomiao"></i>
-					</span>
-				</div>
-			</div>	
-		</div>-->
-		
-		
 		<div class="manage-li manage-address " tag="div" @click="handlepopupno">
 			<div class="title-div">
 				<span class="manageana-li-title">设备地址</span>
@@ -231,7 +211,8 @@ export default {
 	},
   	//扫描二维码事件
   	handleScan(){
-//		alert('点击了扫描二维码')
+		// alert('点击了扫描二维码')
+		// Dialog({ message: '点击了扫描二维码' });
   		let _this=this
   		wx.scanQRCode({
 			needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
@@ -245,13 +226,16 @@ export default {
 				}).then((res)=>{
 //					alert(res.data)
 					if(!res.data){
-	      				alert('该设备可以绑定')
+						  // alert('该设备可以绑定')
+						  Dialog({ message: '该设备可以绑定' });
 	      				_this.test=result;
 					}else{
-						alert('该设备已经绑定，请先去个人设置中解绑')
+						// alert('该设备已经绑定，请先去个人设置中解绑')
+						Dialog({ message: '该设备已经绑定，请先去个人设置中解绑' });
 					}
 				}).catch(err=>{
-					alert('网络故障，请检查')
+					// alert('网络故障，请检查')
+					Dialog({ message: '网络故障，请检查' });
 				})
 			}
 		});

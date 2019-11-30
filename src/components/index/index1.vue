@@ -1,8 +1,8 @@
 <script>
 import axios from 'axios';
 import ccc from './index3'//引用文件
-const ADMINURL='';//线上
-// const ADMINURL ='http://10.10.0.204:8083';//线
+// const ADMINURL='';//线上
+const ADMINURL ='http://10.10.0.204:8083';//线
 var name = axios({
 	method:'get',
 	url:ADMINURL+'/api/SystemApi/ModulesConfig',

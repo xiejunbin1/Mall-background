@@ -1,12 +1,5 @@
 <template>
 	<div class="getcell-main">
-		<!--<van-nav-bar
-		  title="设备进库"
-		  left-text="返回"
-		  left-arrow
-		  @click-left="onClickLeft"
-		  class='goods-title'
-		/>-->
 		<div class="manage-li manage-encode " v-show="showtest">
 			<!--<div class="title-div">
 				<div class="manageana-li-title">出厂编码</div>
@@ -44,7 +37,13 @@
 						<input  v-model="fromData.agentNo" placeholder="请输入代理商名称"/>
 					</div>
 					<div class="pass2-test">{{passTest3}}</div>
-					
+
+					<div class="input-div">
+						<div class="input-title">设备类型选择</div>
+						<select v-model="id" v-on:change="indexSelect($event)">
+							<option :value="value.id" v-for="(value,index) in click" :key="index">{{ value.name }}</option>
+						</select>
+					</div>
 					<van-button size="large" type="primary" @click='handleBtn2' :loading='isLoading' class='pass2-btn'>保存提交</van-button>
 				</div>
 			</div>
@@ -74,13 +73,18 @@ export default {
       	passTest2:'',
       	passTest3:'',
       	isLoading:false,
-      	showtest:true,
+		showtest:true,
+		id:0,
+		click:[] 
     }
   },
   methods:{
   	//返回上一页
   	onClickLeft(){
 		this.$router.go(-1);
+	},
+	indexSelect(event){
+　　	this.id = event.target.value
 	},
 	//手动输入二维码
 	handleScan2(){
@@ -124,12 +128,13 @@ export default {
 		let passData=qs.stringify({
 			machineNum:_this.fromData.machineCode,
 			machineCode:_this.fromData.machineNum,
-			agentNo:_this.fromData.agentNo
+			agentNo:_this.fromData.agentNo,
+			status:this.id
 		})
 		if(_this.fromData.machineCode&&_this.fromData.agentNo&&this.fromData.machineNum){
 			axios({
 				method: 'post',
-			    url:'/api/MachineApi/RecordWhite',
+			    url:url.adminurl+'/api/MachineApi/RecordWhite',
 				data:passData 
 			}).then((res)=>{
 				alert(res.data.msg)
@@ -148,7 +153,7 @@ export default {
   	let _this=this
 	axios({
 	  method: 'get',
-	  url:'/api/SystemApi/GetWxJsapiConfig?url='+location.href.split('#')[0],
+	  url:url.adminurl+'/api/SystemApi/GetWxJsapiConfig?url='+location.href.split('#')[0],
 //	  data:fromData //向服务端提供授权url参数，并且不需要#后面的部分
 	}).then((res)=>{
 //	  alert(res)
@@ -160,6 +165,15 @@ export default {
 	    signature: res.data.signature,// 必填，签名，见附录1
 	    jsApiList:  res.data.jsApiList// 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 	  });
+	})
+	axios({
+		method:'get',
+		url:url.adminurl+'/api/MachineApi/GetMachineTypes'
+	}).then((res)=>{
+		console.log(res)
+		this.click = res.data
+	}).catch(err=>{
+		this.submitTest(err,_this)
 	})
   },
   //计算属性
@@ -207,64 +221,7 @@ body{
 				background: #fff;
 			}
 		}
-		/*padding: 10px;
-		font-size: 14px;
-		border-bottom:1px solid @BOX4;
-		margin-top: 20px;
-		border-top: 1px solid @BOX4;*/
-		/*.title-div{
-			display: flex;
-			justify-content: space-between;
-			.manageana-li-title{
-				font-size: 16px;
-				width: 20%;
-			}
-			.manageana-li-value{
-				font-size: 16px;
-				text-align: right;
-				width: 60%;
-				color: @FTC3;
-				display: flex;
-				justify-content: space-between;
-				.manaeg-input{
-					border: none;
-					width: 100%;
-				}
-				.value-check{
-					margin-right: 0px;
-				}
-				.qr-code{
-					color: @BGblue;
-					width: 80%;
-					overflow:hidden;
-				    text-overflow:ellipsis;
-				    white-space:nowrap;
-				    display: block;
-				}
-				.qr-icon{
-					display: block;
-					width: 20%;
-				}
-				.icon-saomiao{
-					color: @BGblue;
-				}
-			}
-			.manageana-li-value1{
-				max-width: 70%;
-				min-width: 30%;
-				text-align: center;
-				overflow:hidden;
-			    text-overflow:ellipsis;
-			    white-space:nowrap;
-			    display: block;
-			}
-			.manageana-li-value2{
-				width: 70px;
-				.icon{
-					line-height: 27px;
-				}
-			}
-		}*/
+		
 	}
 	.pass2{
 		padding: 50px 0;
@@ -306,6 +263,27 @@ body{
 				margin-top: 20px;
 			}
 		}
+	}
+}
+.input-div{
+	width: 100%;
+	height: 44px;
+	border: 1px solid #DCDFE6;
+	margin-top: 20px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center; 
+	.input-title{
+		font-size: 14px;
+		color: #606266;
+		text-indent: 5px;
+	}
+	select{
+		width: 60%;
+		height: 90%;
+		outline: none;
+		border: none;
+		margin-left: 10px;
 	}
 }
 </style>

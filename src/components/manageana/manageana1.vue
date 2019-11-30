@@ -177,6 +177,7 @@ export default {
   },
   //开始创建
   created(){
+
   		let _this=this
 //		if (location.href.indexOf("qrresult=")>-1){
 //			alert(decodeURIComponent(location.href.split("qrresult=")[1])) //在您的程序中可对此数据进行处理

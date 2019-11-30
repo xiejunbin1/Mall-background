@@ -116,7 +116,7 @@
 			  			<span class="li-name">商品售卖价格</span>
 			  			<span class="li-value">
 			  				<span class="li-value-input">
-			  					<input type="text" v-model="goods_price"/>
+			  					<input type="text" v-model="goods_price" @focus="focus"/>
 			  				</span>
 			  				<span>元/个</span>
 			  			</span>
@@ -137,7 +137,7 @@
 			  		<div class="popup-li-div">
 			  			<span class="li-name">现有库存</span>
 			  			<span class="li-value">
-			  				<van-stepper v-model="remainder" integer :min="0" :max="1000"/>
+			  				<van-stepper v-model="remainder" @focus="existing" integer :min="0" :max="1000"/>
 			  			</span>
 			  		</div>
 			  	</div>
@@ -145,7 +145,7 @@
 			  		<div class="popup-li-div">
 			  			<span class="li-name">货道容量</span>
 			  			<span class="li-value">
-			  				<van-stepper v-model="volume" integer :min="0" :max="1000"/>
+			  				<van-stepper v-model="volume" @focus="aisle" integer :min="0" :max="1000"/>
 			  			</span>
 			  		</div>
 			  	</div>
@@ -161,9 +161,17 @@
 							<span>共{{listsum}}条数据</span>
 						</div>
 					</div>
-
+					<van-search
+						v-model="search"
+						placeholder="请输入搜索关键词"
+						show-action
+						shape="round"
+						@search="onSearch"
+					>
+						<div slot="action" @click="onSearch">搜索</div>
+					</van-search>
 					<!-- 分类 -->
-					<van-tabs @click="GoodsClick">
+					<van-tabs v-model="activeName" @click="GoodsClick">
   						<van-tab v-for="(value,index) in dataGoods" :key="index"  :title="value.name"  >
   						</van-tab>
 					</van-tabs>
@@ -189,12 +197,21 @@
 					            :show-page-size="Page_list" 
 					            @change='claick'
 								class="van-pagination"
+								v-if="hidden"
+					        />
+							<van-pagination 
+					            v-model="pageNumber" 
+					            :total-items="listsum" 
+					            :items-per-page="20"
+					            :show-page-size="Page_list" 
+					            @change='paging'
+								class="van-pagination"
+								v-if="disappear"
 					        />
 						</van-pull-refresh>
 					</div>
 					
 				</van-tab>
-				
 			</van-tabs>
 		</van-popup>
 		<Footer></Footer>
@@ -207,7 +224,7 @@ import qs from 'qs';
 import url from '@/urlRouter.js'
 import {toMoney} from '@/moneyFilter.js'
 import {submitTest} from '@/common/js/loginTest.js'
-import { Dialog,Tab, Tabs,Toast } from 'vant';
+import { Dialog,Tab, Tabs,Toast,Search } from 'vant';
 import { ActionSheet } from 'vant';
 import Footer from '../index/index'
 export default {
@@ -242,6 +259,10 @@ export default {
 			onclickIndex:'',
 			isAll:false,
 			showgoodlist:false, //商品列表
+			activeName:0,//分类
+			search:"",//搜索框
+			hidden:true,
+			disappear:false,
 			active:0,
 			listData:[], //商品列表
 			otherListData:[],  //其他商品列表
@@ -476,6 +497,8 @@ export default {
 		},
 		// 选着商品分类
 		GoodsClick(name, title){
+			this.disappear = false
+			this.hidden = true
 			this.dataGoods[name].name
 			var aaa =	this.$toast(title);
 			this.id = this.dataGoods[name].id
@@ -575,20 +598,34 @@ export default {
         // 商品分页数据显示页码改变
         claick () {
             var pageNumber= this.pageNumber
-				let _this=this
-				axios({
-					method: 'get',
-					url:url.adminurl+'/api/ProductApi/List?page='+pageNumber+'&status=0'+'&productTypeId='+this.id,
-				}).then((res)=>{
-					_this.isLoading = false; //关闭下拉刷新效果
-                    _this.listData=res.data.data;
-                    _this.listsum=res.data.totalCount
-                    _this.pageList=parseInt(res.data.totalCount%10)
-				}).catch(err=>{
-					submitTest(err,_this);
-				})
+			let _this=this
+			axios({
+				method: 'get',
+				url:url.adminurl+'/api/ProductApi/List?page='+pageNumber+'&status=0'+'&productTypeId='+this.id,
+			}).then((res)=>{
+				_this.isLoading = false; //关闭下拉刷新效果
+                _this.listData=res.data.data;
+                _this.listsum=res.data.totalCount
+                 _this.Page_list=parseInt(res.data.totalCount%10)
+			}).catch(err=>{
+				submitTest(err,_this);
+			})
         },
-
+		paging(){
+			var pageNumber= this.pageNumber
+			let _this=this
+			axios({
+				method: 'get',
+				url:url.adminurl+'/api/ProductApi/ListSearch?page='+this.pageNumber+'&keyword='+this.search,
+			}).then((res)=>{
+				_this.isLoading = false; //关闭下拉刷新效果
+                _this.listData=res.data.data;
+                _this.listsum=res.data.totalCount
+                _this.Page_list=parseInt(res.data.totalCount%20)
+			}).catch(err=>{
+				submitTest(err,_this);
+			})
+		},
         //第一次进来的商品展示
 		 init() {
 			if(this.tabIndex==0){
@@ -601,7 +638,8 @@ export default {
 					_this.isLoading = false; //关闭下拉刷新效果
                     _this.listData=res.data.data;
                     _this.listsum=res.data.totalCount
-                    _this.pageList=parseInt(res.data.totalCount%10)
+					_this.Page_list=parseInt(res.data.totalCount%10)
+					
 				}).catch(err=>{
 					submitTest(err,_this);
 				})
@@ -615,6 +653,7 @@ export default {
 					_this.isLoading = false; //关闭下拉刷新效果
 					_this.otherListData=res.data.data;
 					_this.listsum2=res.data.totalCount
+					_this.Page_list=parseInt(res.data.totalCount%10)
 				}).catch(err=>{
 					submitTest(err,_this);
 				})
@@ -663,7 +702,38 @@ export default {
 					message: '库存数不能大于货道容量'
 				})
             }
-        }
+		},
+		//售卖商品价格清空
+		focus(){
+			this.goods_price = ""
+		},
+		//现有库存清空
+		existing(){
+			this.remainder = ""
+		},
+		aisle(){
+			this.volume = ""
+		},
+		//货道商品搜索
+		onSearch(){
+			this.activeName = 0
+			this.pageNumber = 1
+			this.hidden = false 
+			this.disappear = true
+			axios({
+				method: 'get',
+				url:url.adminurl+'/api/ProductApi/ListSearch?page='+this.pageNumber+'&keyword='+this.search,
+			}).then((res)=>{
+				console.log(res)
+				this.listData=res.data.data;
+				this.listsum=res.data.totalCount
+				this.Page_list=parseInt(res.data.totalCount%20)
+					
+			}).catch(err=>{
+				submitTest(err,_this);
+			})
+			
+		}
     },
     // 取消
     

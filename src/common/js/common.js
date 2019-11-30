@@ -1,8 +1,8 @@
 import axios from 'axios';
 import ccc from '../../components/index/index3'//引用文件
 export function zhujian(){
-    // let ADMINURL = 'http://10.10.0.204:8083'
-    let ADMINURL = ''
+    let ADMINURL = 'http://10.10.0.204:8083'  
+    // let ADMINURL = ''
     axios({
         method:'get',
         url:ADMINURL+'/api/SystemApi/ModulesConfig',
@@ -12,7 +12,6 @@ export function zhujian(){
         // machine, // 设备
         // product, //商品,礼品
         // mine,//我的
-        
         for(let i in err.data){
             if(err.data[i].F_Code == "machine_upScore"){
                 //远程上分

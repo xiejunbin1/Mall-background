@@ -258,7 +258,7 @@ export default {
 			},
 		    url:url.adminurl+'/api/MachineBoxApi/PowerTest',
 		}).then((res)=>{
-			Toast('请求已发送');
+			Toast(res.data.msg);
 		}).catch(err=>{
 			submitTest(err,_this);
 		})
@@ -339,7 +339,8 @@ export default {
   },
   //开始创建
   created(){
-  		this.getNoGoodsList();
+	this.getNoGoodsList();
+		  
   },
   //计算属性
   computed:{

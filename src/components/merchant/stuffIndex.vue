@@ -210,7 +210,7 @@
                 </div>
                 <div class="list-item-upload">
                     <div class="upload-left">
-                        <p class="upload_name"><span><i class="icon iconfont icon-xiugai1"></i>营业场所门头照：</span></p>
+                        <p class="upload_name"><span style="color: red" ><i class="icon iconfont icon-xiugai1"></i>门头与本人合照：</span></p>
                         <p class="upload_demo" @click="tips_btn(4)">查看示例</p>
                     </div>
                     <div class="upload-right">
@@ -223,7 +223,7 @@
                 <div class="item-msg" id="branch_bank_name_t">{{door_head_picture_t}}</div>
                 <div class="list-item-upload">
                     <div class="upload-left">
-                        <p class="upload_name"><span><i class="icon iconfont icon-xiugai1"></i>营业场所内景照：</span></p>
+                        <p class="upload_name"><span style="color: red" ><i class="icon iconfont icon-xiugai1"></i>门店内景照：</span></p>
                         <p class="upload_demo" @click="tips_btn(5)">查看示例</p>
                     </div>
                     <div class="upload-right">
@@ -310,7 +310,7 @@
             <van-area :area-list="areaList" :columns-num="2" title="请选择支行城市" @confirm="Confim" @cancel="Cancel"/>
         </van-popup>
          <van-popup v-model="site_address_show"  position="bottom">
-            <van-area :area-list="areaList" :columns-num="3" :value="cityIndex" title="请选择场地地址" @confirm="onConfim" @cancel="onCancel"/>
+            <van-area :area-list="area" :columns-num="3" :value="cityIndex" title="请选择场地地址" @confirm="onConfim" @cancel="onCancel"/>
         </van-popup>
     </div>
 </template>
@@ -323,6 +323,7 @@ import {submitTest} from '@/common/js/loginTest.js'
 import {Toast} from 'vant'
 import { Dialog } from 'vant';
 import areaList from '../../city.js'
+import area from '../../area.js'
 export default {
     data () {
         return {
@@ -398,6 +399,7 @@ export default {
             subbranch_value:'',
             select_city_show:false,
             areaList: areaList,
+            area:area,
             uname:'', //联系人
             uemail:'', //邮箱
             uphone:'', //银行预留手机号
@@ -661,9 +663,10 @@ export default {
             let _this=this
             axios({
                 method:'get',
-                url:'/api/BankApi/GetCbBchBanks?keyword='+_this.subbranch_value+'&bank_name='+_this.bank_type+'&city_code='+_this.city_code,
+                url:url.adminurl+'/api/BankApi/GetCbBchBanks?keyword='+_this.subbranch_value+'&bank_name='+_this.bank_type+'&city_code='+_this.city_code,
                 responseType:'json'
                 }).then((res)=>{
+                    console.log(res)
                     if(res.data.status=="Fail"){
                         alert(res.data.msg);
                     }else{
@@ -674,9 +677,14 @@ export default {
                 })
         },
         Confim(value){
-            this.city_code=value[1].code;
-            this.select_bank_city=value[1].name;
-            this.select_city_show=false;
+            for(let i in area.city_list){
+                if(area.city_list[i] == value[1].name){
+                    this.city_code=i;
+                    this.select_bank_city=value[1].name;
+                    this.select_city_show=false;              
+                }
+            }
+            
         },
         Cancel(){
             this.select_city_show=false
@@ -842,10 +850,11 @@ export default {
                 }).then(() => {
                     axios({
                         method:'post',
-                        url:'/api/MerchantApi/SaveStuff',
+                        url:url.adminurl+'/api/MerchantApi/SaveStuff',
                         data:fromData,
                         responseType:'json'
                     }).then(res=>{
+                        console.log(res)
                         if(res.data.status=='Success'){
                             alert(res.data.msg)
                             this.getInfo()
@@ -866,9 +875,10 @@ export default {
             let _this=this
             axios({
                 method:'post',
-                url:'/api/MerchantApi/GetStuffDetail',
+                url:url.adminurl+'/api/MerchantApi/GetStuffDetail',
                 responseType:'json'
                 }).then((res)=>{
+                    console.log(res)
                 if(res.data==''||res.data==null){
                     
                 }else{
@@ -963,9 +973,10 @@ export default {
                     })
                     axios({
                         method:'get',
-                        url:'/api/CityApi/GetCbCity?cityName='+this.site_county,
+                        url:url.adminurl+'/api/CityApi/GetCbCity?cityName='+this.site_county,
                         responseType:'json'
                         }).then((res)=>{
+                            console.log(res)
                             this.cityIndex=res.data.city_code;
                         }).catch(err=>{
                             submitTest(err,_this);
@@ -1005,6 +1016,7 @@ export default {
         width: 100%;
         height: 100%;
         background: #fff;
+        
         .main_top{
             // position: fixed;
             // top:0;

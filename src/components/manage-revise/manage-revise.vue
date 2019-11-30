@@ -30,10 +30,8 @@
 					<span style="color: #409EFF;margin-right: 10px;">{{manageAddress}}</span>					
 					<i class="icon iconfont icon-icon11"></i>
 				</span>
-				
 			</div>	
 		</div>
-		
 		<div class="manage-li manage-classify" @click='manageclassify'>
 			<div class="title-div">
 				<div class="manageana-li-title">机器类型</div>
@@ -43,26 +41,6 @@
 				</span>
 			</div>
 		</div>
-		
-		<!--<router-link to='/setcell' tag='div' class="manage-li manage-road">
-			<div class="title-div">
-				<div class="manageana-li-title">机器货道</div>
-				<div class="manageana-li-value">
-					<span class="value-check">请选择</span>
-					<i class="icon iconfont icon-icon11"></i>
-				</div>
-			</div>
-		</router-link>
-		
-		<router-link to='/getcell' tag='div' class="manage-li manage-demo">
-			<div class="title-div">
-				<div class="manageana-li-title">货道预览</div>
-				<div class="manageana-li-value">
-					<span class="value-check">可预览</span>
-					<i class="icon iconfont icon-icon11"></i>
-				</div>
-			</div>
-		</router-link>-->
 		
 		<div class="manage-btn">
 			<div class="title-div">

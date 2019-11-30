@@ -21,6 +21,7 @@
 				</span>
 			</div>
 		</div>
+		<div class="a"></div>
 		<Footer></Footer>
 	</div>
 </template>
@@ -182,5 +183,11 @@ export default {
 			}
 		}
 	}
+}
+.a{
+	width: 100%;
+	height: 55px;
+	// border: 1px solid red;
+	background: #fff;
 }
 </style>

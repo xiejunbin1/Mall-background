@@ -510,6 +510,15 @@ export default new Router({
       }
     },
     {
+      path: '/twistedEggMachine/:mid',
+      name:'twistedEggMachine',
+      component: resolve => require(['@/components/manage-param/twistedEggMachine'], resolve),
+      beforeEnter:(to,from,next)=>{
+      	document.getElementById('titleId').innerHTML='设备参数修改'
+      	next()
+      }
+    },
+    {
       path: '/gameparam/:mid',
       name:'gameparam',
       component: resolve => require(['@/components/game_param/game_param'], resolve),
